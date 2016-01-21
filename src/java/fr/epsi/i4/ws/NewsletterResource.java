@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.epsi.i4;
+package fr.epsi.i4.ws;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -25,9 +28,11 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("newsletter")
 public class NewsletterResource {
-
+    
     @Context
     private UriInfo context;
+    
+    private WSRestNewsletter t;
 
     /**
      * Creates a new instance of NewsletterResource
@@ -43,10 +48,10 @@ public class NewsletterResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("/user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getUserById(@PathParam("id") int id) {
-        return WSRestNewsletter.getUserById(id);
+    public String getUserById(@PathParam("id") int id) throws JsonProcessingException {
+        return t.getUserById(id);
     }
     
     /**
@@ -69,8 +74,8 @@ public class NewsletterResource {
     @GET
     @Path("/newsletter/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getNewsLetterById(@PathParam("id") int id) {
-        return WSRestNewsletter.getNewsLetterById(id);
+    public String getNewsletterById(@PathParam("id") int id) throws JsonProcessingException {
+        return t.getNewsletterById(id);
     }
     
     /**
@@ -235,8 +240,8 @@ public class NewsletterResource {
      * @param userMail
      */
     @DELETE
-    @Path("/user")
-    public void removeUser(@QueryParam("userName") String userMail) {
+    @Path("/user/{userName}")
+    public void removeUser(@PathParam("userName") String userMail) {
         WSRestNewsletter.removeUser(userMail);
     }
     
@@ -246,9 +251,9 @@ public class NewsletterResource {
      * @param contentId
      */
     @POST
-    @Path("/newsletter")
+    @Path("/newsletter/{contentId}")
     public void removeNewsletter(@QueryParam("title") String title, 
-            @QueryParam("contentId") int contentId) {
+            @PathParam("contentId") int contentId) {
         WSRestNewsletter.removeNewsletter(title, contentId);
     }
     
@@ -257,9 +262,9 @@ public class NewsletterResource {
      * @param userId
      */
     @POST
-    @Path("/receiver")
-    public void removeReceiver(@QueryParam("userId") int userId){
-        WSRestNewsletter.removeReceiver(userId);
+    @Path("/receiver/{receiverId}")
+    public void removeReceiver(@PathParam("receiverId") int receiverId){
+        WSRestNewsletter.removeReceiver(receiverId);
     }
     
     /**
@@ -268,20 +273,20 @@ public class NewsletterResource {
      * @param receiverId
      */
     @POST
-    @Path("/newsletterReceiver")
-    public void removeNewsletterReceiver(@QueryParam("newsletterId") int newsletterId, 
-            @QueryParam("receiverId") int receiverId){
+    @Path("/newsletterReceiver/{newsletterId}/{receiverId}")
+    public void removeNewsletterReceiver(@PathParam("newsletterId") int newsletterId, 
+            @PathParam("receiverId") int receiverId){
         WSRestNewsletter.removeNewsletterReceiver(newsletterId, receiverId);
     }
     
     /**
      *
-     * @param groupName
+     * @param groupId
      */
     @POST
-    @Path("/mailingGroup")
-    public void removeMailingGroup(@QueryParam("groupName") String groupName){
-        WSRestNewsletter.removeMailingGroup(groupName);
+    @Path("/mailingGroup/{groupId}")
+    public void removeMailingGroup(@PathParam("groupId") String groupId){
+        WSRestNewsletter.removeMailingGroup(groupId);
     }
     
     /**
@@ -290,9 +295,9 @@ public class NewsletterResource {
      * @param userMail
      */
     @POST
-    @Path("/mailingGroupUsers")
-    public void removeMailingGroupUsers(@QueryParam("groupName") String groupName,
-            @QueryParam("userMail") String userMail){
+    @Path("/mailingGroupUsers/{groupId}/{userMail}")
+    public void removeMailingGroupUsers(@PathParam("groupId") String groupName,
+            @PathParam("userMail") String userMail){
         WSRestNewsletter.removeMailingGroupUsers(groupName, userMail);
     }
     
@@ -301,8 +306,8 @@ public class NewsletterResource {
      * @param contentId
      */
     @POST
-    @Path("/content")
-    public void removeContent(@QueryParam("contentId") int contentId){
+    @Path("/content/{contentId}")
+    public void removeContent(@PathParam("contentId") int contentId){
         WSRestNewsletter.removeContent(contentId);
     }
     
@@ -311,9 +316,9 @@ public class NewsletterResource {
      * @param campaignName
      */
     @POST
-    @Path("/campaign")
-    public void removeCampaign(@QueryParam("campaignName") String campaignName){
-        WSRestNewsletter.removeCampaign(campaignName);
+    @Path("/campaign/{campaignId}")
+    public void removeCampaign(@PathParam("campaignId") String campaignId){
+        WSRestNewsletter.removeCampaign(campaignId);
     }
     
     /**
@@ -322,10 +327,10 @@ public class NewsletterResource {
      * @param newsletterId
      */
     @POST
-    @Path("/campaignNewsletters")
-    public void removeCampaignNewsletters(@QueryParam("campaignName") String campaignName,
-            @QueryParam("newsletterId") String newsletterId){
-        WSRestNewsletter.removeCampaignNewsletters(campaignName, newsletterId);
+    @Path("/campaignNewsletters/{campaignId}/{newsletterId}")
+    public void removeCampaignNewsletters(@PathParam("campaignId") String campaignId,
+            @PathParam("newsletterId") String newsletterId){
+        WSRestNewsletter.removeCampaignNewsletters(campaignId, newsletterId);
     }
     
     /**
@@ -334,10 +339,10 @@ public class NewsletterResource {
      * @param receiverId
      */
     @POST
-    @Path("/campaignReceivers")
-    public void removeCampaignReceivers(@QueryParam("campaignName") String campaignName,
-            @QueryParam("receiverId") int receiverId){
-        WSRestNewsletter.removeCampaignReceivers(campaignName, receiverId);
+    @Path("/campaignReceivers/{campaignId}/{receiverId}")
+    public void removeCampaignReceivers(@PathParam("campaignId") String campaignId,
+            @PathParam("receiverId") int receiverId){
+        WSRestNewsletter.removeCampaignReceivers(campaignId, receiverId);
     }
     
     /* END DELETE */

@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.epsi.i4;
+package fr.epsi.i4.ws;
 
-import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.epsi.i4.models.Newsletter;
+import fr.epsi.i4.models.User;
 
 /**
  *
@@ -13,7 +16,11 @@ import java.util.List;
  */
 public class WSRestNewsletter {
 
-    public static String getUserById(int id) {
+          
+    public WSRestNewsletter(){
+    }
+   
+    public String getUserById(int id) throws JsonProcessingException {
         return "";
     }
     
@@ -21,7 +28,7 @@ public class WSRestNewsletter {
         return "";
     }
     
-    public static String getNewsLetterById(int id){
+    public String getNewsletterById(int id) throws JsonProcessingException{
         return "";
     }
     
